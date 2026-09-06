@@ -1,0 +1,10 @@
+campus,campus_id,heat_image,ndvi_image,metadata_file,data_file,summary_file,mean_surface_temp_f,median_surface_temp_f,mean_ndvi,median_ndvi,heat_rank,vegetation_rank
+UC Riverside,ucr,ucr_heat.png,ucr_ndvi.png,ucr_map_metadata.json,ucr_temperature_ndvi.csv,ucr_summary.csv,121.974414305893,122.218101896,0.262235277586667,0.234762516748243,1,8
+UC Merced,ucm,ucm_heat.png,ucm_ndvi.png,ucm_map_metadata.json,ucm_temperature_ndvi.csv,ucm_summary.csv,114.416525221121,121.539795827,0.191766994062226,0.232932057975373,2,9
+UC Davis,ucd,ucd_heat.png,ucd_ndvi.png,ucd_map_metadata.json,ucd_temperature_ndvi.csv,ucd_summary.csv,112.635877686378,113.958456566,0.42117742605509,0.386794936118569,3,3
+UCLA,ucla,ucla_heat.png,ucla_ndvi.png,ucla_map_metadata.json,ucla_temperature_ndvi.csv,ucla_summary.csv,103.221765064201,102.788709008,0.324035482663412,0.298471019989532,4,6
+UC Irvine,uci,uci_heat.png,uci_ndvi.png,uci_map_metadata.json,uci_temperature_ndvi.csv,uci_summary.csv,100.833266917168,101.841233864,0.37990538241263,0.365002989807062,5,4
+UC San Diego,ucsd,ucsd_heat.png,ucsd_ndvi.png,ucsd_map_metadata.json,ucsd_temperature_ndvi.csv,ucsd_summary.csv,94.8033058903367,96.765474164,0.328118452886371,0.310248736676287,6,5
+UC Santa Barbara,ucsb,ucsb_heat.png,ucsb_ndvi.png,ucsb_map_metadata.json,ucsb_temperature_ndvi.csv,ucsb_summary.csv,93.9619010232391,96.6793400600001,0.273522869754473,0.298176739245369,7,7
+UC Berkeley,berkeley,berkeley_heat.png,berkeley_ndvi.png,berkeley_map_metadata.json,berkeley_temperature_ndvi.csv,berkeley_summary.csv,92.9064318597011,95.5411394,0.442231457264831,0.420186011874962,8,2
+UC Santa Cruz,ucsc,ucsc_heat.png,ucsc_ndvi.png,ucsc_map_metadata.json,ucsc_temperature_ndvi.csv,ucsc_summary.csv,84.7345985033625,83.579265707,0.624349155001622,0.681806461288761,9,1

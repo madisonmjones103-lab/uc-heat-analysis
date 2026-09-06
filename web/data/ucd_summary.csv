@@ -1,0 +1,2 @@
+"campus","statistic","scene_count","start_date","end_date","median_surface_temp_f","mean_surface_temp_f","median_ndvi","mean_ndvi","mean_valid_observations","min_surface_temp_f","max_surface_temp_f","sd_surface_temp_f","min_ndvi","max_ndvi","sd_ndvi","pixel_count"
+"UC Davis","median",4,2025-06-20,2025-07-14,113.958456566,112.635877686378,0.386794936118569,0.42117742605509,4,88.579658066,133.637023112,7.94600306460867,-0.812305723751427,0.969028454588387,0.208164358799846,34884

@@ -1,0 +1,34 @@
+{
+  "campus": "berkeley",
+  "campus_name": "UC Berkeley",
+  "statistic": "median",
+  "scene_count": 4,
+  "start_date": "2025-06-20",
+  "end_date": "2025-07-14",
+  "bounds": {
+    "south": 37.8602,
+    "west": -122.2706,
+    "north": 37.883,
+    "east": -122.2325
+  },
+  "heat": {
+    "min": 74.7908,
+    "max": 104.9032,
+    "units": "°F",
+    "variable": "land surface temperature"
+  },
+  "ndvi": {
+    "min": 0.0783,
+    "max": 0.8217
+  },
+  "valid_observations": {
+    "minimum": 1,
+    "maximum": 4
+  },
+  "files": {
+    "heat_image": "berkeley_heat.png",
+    "ndvi_image": "berkeley_ndvi.png",
+    "data": "berkeley_temperature_ndvi.csv",
+    "summary": "berkeley_summary.csv"
+  }
+}

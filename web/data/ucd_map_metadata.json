@@ -1,0 +1,34 @@
+{
+  "campus": "ucd",
+  "campus_name": "UC Davis",
+  "statistic": "median",
+  "scene_count": 4,
+  "start_date": "2025-06-20",
+  "end_date": "2025-07-14",
+  "bounds": {
+    "south": 38.5123,
+    "west": -121.8115,
+    "north": 38.5695,
+    "east": -121.7267
+  },
+  "heat": {
+    "min": 92.7231,
+    "max": 127.0623,
+    "units": "°F",
+    "variable": "land surface temperature"
+  },
+  "ndvi": {
+    "min": 0.1343,
+    "max": 0.894
+  },
+  "valid_observations": {
+    "minimum": 1,
+    "maximum": 4
+  },
+  "files": {
+    "heat_image": "ucd_heat.png",
+    "ndvi_image": "ucd_ndvi.png",
+    "data": "ucd_temperature_ndvi.csv",
+    "summary": "ucd_summary.csv"
+  }
+}

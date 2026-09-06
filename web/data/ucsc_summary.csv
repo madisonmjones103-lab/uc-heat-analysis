@@ -1,0 +1,2 @@
+"campus","statistic","scene_count","start_date","end_date","median_surface_temp_f","mean_surface_temp_f","median_ndvi","mean_ndvi","mean_valid_observations","min_surface_temp_f","max_surface_temp_f","sd_surface_temp_f","min_ndvi","max_ndvi","sd_ndvi","pixel_count"
+"UC Santa Cruz","median",4,2025-06-20,2025-07-14,83.579265707,84.7345985033625,0.681806461288761,0.624349155001622,2.23512732124986,69.091817036,108.667361606,11.320502751703,0.0264216824128209,0.908836080972139,0.227133392033062,17468

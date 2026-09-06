@@ -1,0 +1,2 @@
+"campus","statistic","scene_count","start_date","end_date","median_surface_temp_f","mean_surface_temp_f","median_ndvi","mean_ndvi","mean_valid_observations","min_surface_temp_f","max_surface_temp_f","sd_surface_temp_f","min_ndvi","max_ndvi","sd_ndvi","pixel_count"
+"UC Riverside","median",4,2025-06-16,2025-07-10,122.218101896,121.974414305893,0.234762516748243,0.262235277586667,3.21706161137441,105.341969948,134.895196274,4.17637681750782,-0.0343001008600047,0.81819045131882,0.132686901351746,15039

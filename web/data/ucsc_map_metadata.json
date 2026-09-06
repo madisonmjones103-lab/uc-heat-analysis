@@ -1,0 +1,34 @@
+{
+  "campus": "ucsc",
+  "campus_name": "UC Santa Cruz",
+  "statistic": "median",
+  "scene_count": 4,
+  "start_date": "2025-06-20",
+  "end_date": "2025-07-14",
+  "bounds": {
+    "south": 36.9696,
+    "west": -122.0867,
+    "north": 37.0094,
+    "east": -122.0349
+  },
+  "heat": {
+    "min": 70.1301,
+    "max": 103.4351,
+    "units": "°F",
+    "variable": "land surface temperature"
+  },
+  "ndvi": {
+    "min": 0.2352,
+    "max": 0.8834
+  },
+  "valid_observations": {
+    "minimum": 1,
+    "maximum": 4
+  },
+  "files": {
+    "heat_image": "ucsc_heat.png",
+    "ndvi_image": "ucsc_ndvi.png",
+    "data": "ucsc_temperature_ndvi.csv",
+    "summary": "ucsc_summary.csv"
+  }
+}

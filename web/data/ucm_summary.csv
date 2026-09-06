@@ -1,0 +1,2 @@
+"campus","statistic","scene_count","start_date","end_date","median_surface_temp_f","mean_surface_temp_f","median_ndvi","mean_ndvi","mean_valid_observations","min_surface_temp_f","max_surface_temp_f","sd_surface_temp_f","min_ndvi","max_ndvi","sd_ndvi","pixel_count"
+"UC Merced","median",4,2025-06-21,2025-07-15,121.539795827,114.416525221121,0.232932057975373,0.191766994062226,3.82789212207239,71.872718108,134.34762947,17.5779821493961,-0.455648998716465,0.773499936533282,0.144561184987349,8463

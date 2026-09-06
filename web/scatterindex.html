@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  />
+
+  <title>UCLA Through Time</title>
+
+  <!-- Font imports -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Noto+Serif:wght@400;600&family=PT+Sans:wght@400;700&display=swap"
+    rel="stylesheet"
+  >
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      margin: 0;
+      padding: 0;
+      background: #ffffff;
+      color: #111111;
+      font-family: "PT Sans", Arial, Helvetica, sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+    }
+
+    button,
+    input,
+    select {
+      font-family: inherit;
+    }
+
+    .timeline-container {
+      width: min(100%, 1050px);
+      margin: 0 auto;
+      padding: 24px 20px 32px;
+    }
+
+    .timeline-header {
+      margin-bottom: 20px;
+    }
+
+    .timeline-title {
+      margin: 0;
+      font-family: "Noto Serif", Georgia, serif;
+      font-size: clamp(24px, 3.5vw, 36px);
+      font-weight: 600;
+      line-height: 1.15;
+      letter-spacing: -0.02em;
+    }
+
+    .timeline-subtitle {
+      margin: 8px 0 0;
+      color: #555555;
+      font-size: 16px;
+      line-height: 1.45;
+    }
+
+    .timeline-navigation {
+      width: 100%;
+      margin: 0 0 18px;
+    }
+
+    .timeline-track {
+      position: relative;
+      display: grid;
+      grid-template-columns: repeat(8, minmax(0, 1fr));
+      align-items: start;
+      width: 100%;
+      gap: 6px;
+    }
+
+    .timeline-track::before {
+      content: "";
+      position: absolute;
+      left: 6.25%;
+      right: 6.25%;
+      top: 12px;
+      height: 2px;
+      background: #bdbdbd;
+      z-index: 0;
+    }
+
+    .year-button {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 7px;
+      min-width: 0;
+      padding: 4px 2px;
+      border: 0;
+      border-radius: 3px;
+      background: transparent;
+      color: #666666;
+      font: inherit;
+      font-size: 14px;
+      cursor: pointer;
+    }
+
+    .year-dot {
+      width: 17px;
+      height: 17px;
+      border: 2px solid #888888;
+      border-radius: 50%;
+      background: #ffffff;
+      transition:
+        transform 160ms ease,
+        background 160ms ease,
+        border-color 160ms ease;
+    }
+
+    .year-label {
+      background: #ffffff;
+      padding: 0 3px;
+      line-height: 1.2;
+    }
+
+    .year-button:hover .year-dot,
+    .year-button:focus-visible .year-dot {
+      transform: scale(1.15);
+      border-color: #2774ae;
+    }
+
+    .year-button.active {
+      color: #111111;
+      font-weight: 700;
+    }
+
+    .year-button.active .year-dot {
+      border-color: #2774ae;
+      background: #2774ae;
+    }
+
+    .year-button:focus-visible {
+      outline: 2px solid #2774ae;
+      outline-offset: 3px;
+    }
+
+    .image-panel {
+      position: relative;
+      width: 100%;
+      overflow: hidden;
+      background: #eeeeee;
+      border: 1px solid #d8d8d8;
+      aspect-ratio: 16 / 9;
+    }
+
+    .timeline-image {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 1;
+      transition: opacity 250ms ease;
+    }
+
+    .timeline-image.is-fading {
+      opacity: 0;
+    }
+
+    .image-year {
+      position: absolute;
+      left: 14px;
+      bottom: 14px;
+      margin: 0;
+      padding: 7px 11px;
+      background: rgba(255, 255, 255, 0.92);
+      color: #111111;
+      font-family: "Noto Serif", Georgia, serif;
+      font-size: 18px;
+      font-weight: 600;
+      line-height: 1;
+    }
+
+    .source-line {
+      margin: 14px 0 0;
+      color: #666666;
+      font-size: 12px;
+      line-height: 1.5;
+    }
+
+    @media (max-width: 700px) {
+      .timeline-container {
+        padding: 18px 14px 26px;
+      }
+
+      .timeline-navigation {
+        overflow-x: auto;
+        padding-bottom: 7px;
+      }
+
+      .timeline-track {
+        grid-template-columns: repeat(8, minmax(65px, 1fr));
+        min-width: 540px;
+      }
+
+      .timeline-track::before {
+        left: 32px;
+        right: 32px;
+      }
+
+      .year-button {
+        font-size: 13px;
+      }
+
+      .image-panel {
+        aspect-ratio: 4 / 3;
+      }
+
+      .image-year {
+        left: 10px;
+        bottom: 10px;
+        font-size: 15px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <main class="timeline-container">
+    <header class="timeline-header">
+      <h1 class="timeline-title">
+        UCLA through time: 1985–2025
+      </h1>
+
+      <p class="timeline-subtitle">
+        Historical aerial imagery shows how UCLA and its surrounding
+        landscape changed between 1985 and 2025. Click a year to follow UCLA's growth over time.
+      </p>
+    </header>
+
+    <section aria-label="UCLA historical imagery timeline">
+      <nav
+        class="timeline-navigation"
+        aria-label="Choose a year"
+      >
+        <div id="timeline-track" class="timeline-track">
+          <button
+            class="year-button active"
+            type="button"
+            data-index="0"
+            aria-pressed="true"
+          >
+            <span class="year-dot" aria-hidden="true"></span>
+            <span class="year-label">1985</span>
+          </button>
+
+          <button
+            class="year-button"
+            type="button"
+            data-index="1"
+            aria-pressed="false"
+          >
+            <span class="year-dot" aria-hidden="true"></span>
+            <span class="year-label">1989</span>
+          </button>
+
+          <button
+            class="year-button"
+            type="button"
+            data-index="2"
+            aria-pressed="false"
+          >
+            <span class="year-dot" aria-hidden="true"></span>
+            <span class="year-label">1994</span>
+          </button>
+
+          <button
+            class="year-button"
+            type="button"
+            data-index="3"
+            aria-pressed="false"
+          >
+            <span class="year-dot" aria-hidden="true"></span>
+            <span class="year-label">2002</span>
+          </button>
+
+          <button
+            class="year-button"
+            type="button"
+            data-index="4"
+            aria-pressed="false"
+          >
+            <span class="year-dot" aria-hidden="true"></span>
+            <span class="year-label">2009</span>
+          </button>
+
+          <button
+            class="year-button"
+            type="button"
+            data-index="5"
+            aria-pressed="false"
+          >
+            <span class="year-dot" aria-hidden="true"></span>
+            <span class="year-label">2015</span>
+          </button>
+
+          <button
+            class="year-button"
+            type="button"
+            data-index="6"
+            aria-pressed="false"
+          >
+            <span class="year-dot" aria-hidden="true"></span>
+            <span class="year-label">2020</span>
+          </button>
+
+          <button
+            class="year-button"
+            type="button"
+            data-index="7"
+            aria-pressed="false"
+          >
+            <span class="year-dot" aria-hidden="true"></span>
+            <span class="year-label">2025</span>
+          </button>
+        </div>
+      </nav>
+
+      <div class="image-panel">
+        <img
+          id="timeline-image"
+          class="timeline-image"
+          src="timeline/UCLA_1985_MAP.jpg"
+          alt="Historical aerial image of UCLA in 1985"
+        />
+
+        <p id="image-year" class="image-year">1985</p>
+      </div>
+
+      <p class="source-line">
+        Source: Google Earth historical imagery from U.S. Geological Survey <br />
+        Graphic reporting and interactive by: Madison Jones, Daily Bruin Contributor
+      </p>
+    </section>
+  </main>
+
+  <script src="timelinescript.js"></script>
+</body>
+</html>

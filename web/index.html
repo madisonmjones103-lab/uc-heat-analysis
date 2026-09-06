@@ -1,0 +1,680 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>UC Campus Heat and Vegetation Comparison</title>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link
+    rel="preconnect"
+    href="https://fonts.gstatic.com"
+    crossorigin
+  >
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Noto+Serif:wght@400;600&family=PT+Sans:wght@400;700&display=swap"
+    rel="stylesheet"
+  >
+
+  <!-- Leaflet -->
+  <link
+    rel="stylesheet"
+    href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+  >
+
+  <style>
+
+    * {
+      box-sizing: border-box;
+    }
+
+    :root {
+      --background: #ffffff;
+      --text: #171717;
+      --muted: #686868;
+      --border: #d9d9d9;
+      --white: #ffffff;
+      --shadow: 0 4px 14px rgba(0, 0, 0, .06);
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      background: var(--background);
+      color: var(--text);
+      font-family: "PT Sans", Arial, Helvetica, sans-serif;
+      overflow-x: hidden;
+    }
+
+    button,
+    select,
+    input {
+      font-family: inherit;
+    }
+
+    /* -------------------------------- */
+    /* MAIN CONTAINER */
+    /* -------------------------------- */
+
+    .page {
+      width: min(760px, calc(100% - 24px));
+      margin: 0 auto;
+      padding: 18px 0 28px;
+    }
+
+    /* -------------------------------- */
+    /* HEADER */
+    /* -------------------------------- */
+
+    .story-header {
+      width: 100%;
+      margin-bottom: 12px;
+    }
+
+    h1 {
+      margin: 0;
+      font-family: "Noto Serif", Georgia, serif;
+      font-size: clamp(1.45rem, 2.4vw, 1.85rem);
+      font-weight: 600;
+      letter-spacing: -.02em;
+      line-height: 1.15;
+    }
+
+    .subtitle {
+      max-width: 720px;
+      margin: 6px 0 0;
+      color: var(--muted);
+      font-size: .88rem;
+      line-height: 1.4;
+    }
+
+    .directions {
+      margin: 3px 0 0;
+      color: var(--muted);
+      font-size: .86rem;
+      line-height: 1.4;
+    }
+
+    /* -------------------------------- */
+    /* INTERACTIVE */
+    /* -------------------------------- */
+
+    .interactive-section {
+      width: 100%;
+    }
+
+    .top-controls {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      gap: 12px;
+      margin-bottom: 8px;
+    }
+
+    .controls {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      min-width: 0;
+    }
+
+    .layer-button {
+      appearance: none;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      background: var(--white);
+      color: var(--text);
+      padding: 6px 11px;
+      font-size: .79rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition:
+        border-color .18s,
+        background .18s,
+        color .18s,
+        transform .18s;
+    }
+
+    .layer-button:hover {
+      border-color: #111111;
+      transform: translateY(-1px);
+    }
+
+    .layer-button.active {
+      background: #111111;
+      color: #ffffff;
+      border-color: #111111;
+    }
+
+    /* -------------------------------- */
+    /* CAMPUS SELECTOR */
+    /* -------------------------------- */
+
+    .campus-control {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+      width: 175px;
+      flex-shrink: 0;
+    }
+
+    .campus-control label {
+      color: var(--muted);
+      font-size: .64rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .05em;
+    }
+
+    #campus-select {
+      appearance: none;
+      width: 100%;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      background: #ffffff;
+      padding: 7px 28px 7px 9px;
+      font-size: .8rem;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    #campus-select:focus {
+      outline: 2px solid #999999;
+      outline-offset: 1px;
+    }
+
+    /* -------------------------------- */
+    /* MAP */
+    /* -------------------------------- */
+
+    .map-panel-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 10px;
+      padding-bottom: 6px;
+    }
+
+    .map-panel-title {
+      margin: 0;
+      font-family: "Noto Serif", Georgia, serif;
+      font-size: 1rem;
+      font-weight: 600;
+    }
+
+    .map-panel-description {
+      margin: 0;
+      color: var(--muted);
+      font-size: .67rem;
+      font-weight: 400;
+    }
+
+    .map-wrapper {
+      position: relative;
+      width: 100%;
+      max-width: 100%;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      background: #edf1f2;
+      box-shadow: var(--shadow);
+    }
+
+    .campus-map {
+      width: 100%;
+      height: 360px;
+      background: #edf1f2;
+    }
+
+    .heat-overlay,
+    .ndvi-overlay {
+      mix-blend-mode: multiply;
+    }
+
+    /* -------------------------------- */
+    /* LEGEND */
+    /* -------------------------------- */
+
+    .legend {
+      margin-top: 9px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 18px;
+      border-top: 1px solid var(--border);
+      padding-top: 9px;
+    }
+
+    .legend-source {
+      color: #666666;
+      font-size: 9.8px;
+      font-weight: 400;
+      line-height: 1.35;
+      min-width: 0;
+    }
+
+    .legend-right {
+      width: 190px;
+      margin-left: auto;
+      flex-shrink: 0;
+    }
+
+    .legend-title {
+      margin-bottom: 3px;
+      font-size: 10px;
+      font-weight: 600;
+    }
+
+    .legend-gradient {
+      height: 8px;
+      border-radius: 999px;
+    }
+
+    .legend-values {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 2px;
+      color: #666666;
+      font-size: 9px;
+    }
+
+    /* -------------------------------- */
+    /* NOTE */
+    /* -------------------------------- */
+
+    .note {
+      margin-top: 7px;
+      color: var(--muted);
+      font-size: .72rem;
+      line-height: 1.35;
+    }
+
+    /* -------------------------------- */
+    /* POPUP */
+    /* -------------------------------- */
+
+    .pixel-popup {
+      min-width: 185px;
+      font-family: "PT Sans", Arial, Helvetica, sans-serif;
+    }
+
+    .pixel-popup-title {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: 700;
+    }
+
+    .pixel-popup-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 4px 0;
+      border-top: 1px solid #e4e4e4;
+      font-size: .75rem;
+    }
+
+    .pixel-popup-note {
+      margin: 6px 0 0;
+      color: #666666;
+      font-size: .7rem;
+      line-height: 1.3;
+    }
+
+    .leaflet-control-attribution {
+      font-size: 7px;
+    }
+
+    /* -------------------------------- */
+    /* LOADING / ERROR */
+    /* -------------------------------- */
+
+    .map-error {
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 25px;
+      text-align: center;
+      color: #555555;
+      font-size: .82rem;
+      line-height: 1.45;
+      background: #f7f7f7;
+    }
+
+    /* -------------------------------- */
+    /* TABLET */
+    /* -------------------------------- */
+
+    @media (max-width: 700px) {
+
+      .page {
+        width: min(100% - 24px, 650px);
+        padding: 16px 0 25px;
+      }
+
+      .top-controls {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 8px;
+      }
+
+      .campus-control {
+        width: 100%;
+      }
+
+      .campus-control label {
+        font-size: .63rem;
+      }
+
+      .legend {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 8px;
+      }
+
+      .legend-right {
+        width: 100%;
+        margin-left: 0;
+      }
+
+      .campus-map {
+        height: 340px;
+      }
+    }
+
+    /* -------------------------------- */
+    /* MOBILE */
+    /* -------------------------------- */
+
+    @media (max-width: 500px) {
+
+      .page {
+        width: calc(100% - 20px);
+        padding: 14px 0 22px;
+      }
+
+      h1 {
+        font-size: 1.35rem;
+      }
+
+      .subtitle,
+      .directions {
+        font-size: .82rem;
+      }
+
+      .controls {
+        width: 100%;
+      }
+
+      .layer-button {
+        flex: 1;
+        padding: 6px 7px;
+        font-size: .74rem;
+      }
+
+      .campus-map {
+        height: 300px;
+      }
+
+      .map-panel-title {
+        font-size: .95rem;
+      }
+
+      .map-panel-description {
+        font-size: .62rem;
+      }
+    }
+
+  </style>
+</head>
+
+<body>
+
+  <main class="page">
+
+    <header class="story-header">
+
+      <h1>
+        How heat and vegetation compare across UC campuses
+      </h1>
+
+      <p class="subtitle">
+        Compare UCLA with eight other University of California campuses.
+        Switch between land-surface temperature and vegetation to explore
+        how campus landscapes differ during summer.
+      </p>
+
+      <p class="directions">
+        Select a campus and click anywhere on the map to explore local conditions.
+      </p>
+
+    </header>
+
+
+    <section
+      class="interactive-section"
+      aria-label="Interactive UC campus heat and vegetation comparison"
+    >
+
+      <!-- CONTROLS -->
+
+      <div class="top-controls">
+
+        <div
+          class="controls"
+          aria-label="Map layer controls"
+        >
+
+          <button
+            id="heat-button"
+            class="layer-button active"
+            type="button"
+          >
+            Surface heat
+          </button>
+
+          <button
+            id="ndvi-button"
+            class="layer-button"
+            type="button"
+          >
+            Vegetation
+          </button>
+
+          <button
+            id="compare-button"
+            class="layer-button"
+            type="button"
+          >
+            Heat + vegetation
+          </button>
+
+        </div>
+
+
+        <!-- CAMPUS SELECTOR -->
+
+        <div class="campus-control">
+
+          <label for="campus-select">
+            Select campus
+          </label>
+
+          <select id="campus-select">
+
+            <option value="ucla" selected>
+              UCLA
+            </option>
+
+            <option value="berkeley">
+              UC Berkeley
+            </option>
+
+            <option value="ucd">
+              UC Davis
+            </option>
+
+            <option value="uci">
+              UC Irvine
+            </option>
+
+            <option value="ucm">
+              UC Merced
+            </option>
+
+            <option value="ucr">
+              UC Riverside
+            </option>
+
+            <option value="ucsd">
+              UC San Diego
+            </option>
+
+            <option value="ucsb">
+              UC Santa Barbara
+            </option>
+
+            <option value="ucsc">
+              UC Santa Cruz
+            </option>
+
+          </select>
+
+        </div>
+
+      </div>
+
+
+      <!-- ONE MAP -->
+
+      <section
+        class="map-panel"
+        aria-labelledby="campus-map-title"
+      >
+
+        <div class="map-panel-header">
+
+          <h2
+            id="campus-map-title"
+            class="map-panel-title"
+          >
+            UCLA
+          </h2>
+
+          <p
+            id="map-panel-description"
+            class="map-panel-description"
+          >
+            Selected campus
+          </p>
+
+        </div>
+
+
+        <div class="map-wrapper">
+
+          <div
+            id="campus-map"
+            class="campus-map"
+            role="region"
+            aria-label="UC campus heat map"
+          ></div>
+
+        </div>
+
+      </section>
+
+
+      <!-- LEGEND -->
+
+      <div
+        id="legend"
+        class="legend"
+        aria-label="Map legend"
+      >
+
+        <div class="legend-source">
+
+          Source: U.S. Geological Survey
+          <br>
+
+          Graphic reporting and interactive by:
+          Madison Jones, Daily Bruin Contributor
+
+        </div>
+
+
+        <div class="legend-right">
+
+          <div
+            id="legend-title"
+            class="legend-title"
+          >
+            Land-surface temperature
+          </div>
+
+          <div
+            id="legend-gradient"
+            class="legend-gradient"
+          ></div>
+
+          <div class="legend-values">
+
+            <span id="legend-min">
+              Cooler
+            </span>
+
+            <span id="legend-max">
+              Hotter
+            </span>
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <p class="note">
+        Click inside the colored campus raster to view an approximate
+        measurement from the nearest Landsat raster cell.
+        Land-surface temperature is not air temperature.
+      </p>
+
+    </section>
+
+  </main>
+
+
+  <!-- Leaflet -->
+
+  <script
+    src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+  ></script>
+
+
+  <!-- Papa Parse -->
+
+  <script
+    src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"
+  ></script>
+
+
+  <!-- The JavaScript -->
+
+  <script src="script.js"></script>
+
+</body>
+</html>
+```
